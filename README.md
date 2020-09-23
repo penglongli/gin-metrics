@@ -1,6 +1,7 @@
 # gin-metrics
 gin-gonic/gin metrics exporter for Prometheus.
 
+[中文](README_zh.md)
 
 ## Introduction
 
@@ -17,7 +18,6 @@ Below is the detailed description for every metric.
 | gin_response_body_total | Counter   | the server send response body size, unit byte.      |
 | gin_request_duration    | Histogram | the time server took to handle the request.         |
 | gin_slow_request_total  | Counter   | the server handled slow requests counter, t=%d.     |
-
 
 
 ## Installation

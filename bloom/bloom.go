@@ -1,9 +1,9 @@
 package bloom
 
 import (
-// "fmt"
+	// "fmt"
 
-"github.com/willf/bitset"
+	"github.com/willf/bitset"
 )
 
 const defaultSize = 2 << 24
