@@ -20,6 +20,14 @@ Below is the detailed description for every metric.
 | gin_slow_request_total  | Counter   | the server handled slow requests counter, t=%d.     |
 
 
+## Grafana
+
+
+Set the `grafana` directory for details.
+
+![grafana](./grafana/grafana.png)
+
+
 ## Installation
 
 ```bash
@@ -35,7 +43,7 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	
+
 	"github.com/penglongli/gin-metrics/ginmetrics"
 )
 
@@ -57,12 +65,13 @@ func main() {
 	m.Use(r)
 
 	r.GET("/product/:id", func(ctx *gin.Context) {
+		ctx.JSON(200, map[string]string{
 			"productId": ctx.Param("id"),
 		})
 	})
+
 	_ = r.Run()
 }
-
 ```
 
 ## Custom Metric
