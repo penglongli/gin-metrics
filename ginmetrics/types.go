@@ -63,7 +63,7 @@ func (m *Monitor) GetMetric(name string) *Metric {
 // SetMetricPath set metricPath property. metricPath is used for Prometheus
 // to get gin server monitoring data.
 func (m *Monitor) SetMetricPath(path string) {
-	m.metricPath = defaultMetricPath
+	m.metricPath = path
 }
 
 // SetSlowTime set slowTime property. slowTime is used to determine whether
