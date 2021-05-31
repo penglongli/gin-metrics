@@ -24,7 +24,7 @@ var (
 )
 
 // Use set gin metrics middleware
-func (m *Monitor) Use(r *gin.Engine) {
+func (m *Monitor) Use(r gin.IRoutes) {
 	m.initGinMetrics()
 
 	r.Use(m.monitorInterceptor)
