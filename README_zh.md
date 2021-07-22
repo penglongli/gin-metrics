@@ -75,7 +75,7 @@ func main() {
 
 ```go
 gaugeMetric := &ginmetrics.Metric{
-    Type:        ginmetrics.Counter,
+    Type:        ginmetrics.Gauge,
     Name:        "example_gauge_metric",
     Description: "an example of gauge type metric",
     Labels:      []string{"label1"},
