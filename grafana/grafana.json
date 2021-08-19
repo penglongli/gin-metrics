@@ -219,7 +219,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "gin_request_uv",
+          "expr": "gin_request_uv_total",
           "interval": "",
           "legendFormat": "{{instance}}",
           "refId": "A"
