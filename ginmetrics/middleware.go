@@ -13,7 +13,7 @@ import (
 
 var (
 	metricRequestTotal    = "gin_request_total"
-	metricRequestUV       = "gin_request_uv"
+	metricRequestUVTotal  = "gin_request_uv_total"
 	metricURIRequestTotal = "gin_uri_request_total"
 	metricRequestBody     = "gin_request_body_total"
 	metricResponseBody    = "gin_response_body_total"
@@ -45,7 +45,7 @@ func (m *Monitor) initGinMetrics() {
 	})
 	_ = monitor.AddMetric(&Metric{
 		Type:        Counter,
-		Name:        metricRequestUV,
+		Name:        metricRequestUVTotal,
 		Description: "all the server received ip num.",
 		Labels:      nil,
 	})
@@ -107,7 +107,7 @@ func (m *Monitor) ginMetricHandle(ctx *gin.Context, start time.Time) {
 	// set uv
 	if clientIP := ctx.ClientIP(); !bloomFilter.Contains(clientIP) {
 		bloomFilter.Add(clientIP)
-		_ = m.GetMetric(metricRequestUV).Inc(nil)
+		_ = m.GetMetric(metricRequestUVTotal).Inc(nil)
 	}
 
 	// set uri request total
