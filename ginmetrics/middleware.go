@@ -33,13 +33,19 @@ func (m *Monitor) Use(r gin.IRoutes) {
 	})
 }
 
-func (m *Monitor) UseWithSeparateServer(
-	r gin.IRoutes, metricsRouter gin.IRoutes,
-) {
+// UseWithoutExposingEndpoint is used to add monitor interceptor to gin router
+// It can be called multiple times to intercept from multiple gin.IRoutes
+// http path is not set, to do that use Expose function
+func (m *Monitor) UseWithoutExposingEndpoint(r gin.IRoutes) {
 	m.initGinMetrics()
-
 	r.Use(m.monitorInterceptor)
-	metricsRouter.GET(m.metricPath, func(ctx *gin.Context) {
+}
+
+// Expose adds metric path to a given router.
+// The router can be different than the one passed to UseWithoutExposingEndpoint.
+// This alows to expose metrics on different port.
+func (m *Monitor) Expose(r gin.IRoutes) {
+	r.GET(m.metricPath, func(ctx *gin.Context) {
 		promhttp.Handler().ServeHTTP(ctx.Writer, ctx.Request)
 	})
 }
