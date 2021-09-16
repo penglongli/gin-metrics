@@ -33,6 +33,17 @@ func (m *Monitor) Use(r gin.IRoutes) {
 	})
 }
 
+func (m *Monitor) UseWithSeparateServer(
+	r gin.IRoutes, metricsRouter gin.IRoutes,
+) {
+	m.initGinMetrics()
+
+	r.Use(m.monitorInterceptor)
+	metricsRouter.GET(m.metricPath, func(ctx *gin.Context) {
+		promhttp.Handler().ServeHTTP(ctx.Writer, ctx.Request)
+	})
+}
+
 // initGinMetrics used to init gin metrics
 func (m *Monitor) initGinMetrics() {
 	bloomFilter = bloom.NewBloomFilter()
