@@ -3,6 +3,14 @@ gin-gonic/gin metrics exporter for Prometheus.
 
 [中文](README_zh.md)
 
+- [Introduction](#Introduction)
+- [Grafana](#Grafana)
+- [Installation](#Installation)
+- [Usage](#Usage)
+- [Custom Metric](#Custom-Metric)
+- [Metric with separate port](#Metric-with-separate-port)
+- [Contributing](#Contributing)
+
 ## Introduction
 
 `gin-metrics` defines some metrics for gin http-server. There have easy way to use it.
@@ -128,6 +136,35 @@ With `Counter` type metric, you can use `Inc` and `Add` function, don't use `Set
 ### Histogram and Summary
 
 For `Histogram` and `Summary` type metric, should use `Observe` function.
+
+## Metric with separate port
+
+For some users, they don't want to merge the port of the metric with the port of the application.
+
+So we provide a way to separate the metric port. Here is the example.
+
+```go
+func main() {
+	appRouter := gin.Default()
+	metricRouter := gin.Default()
+
+	m := ginmetrics.GetMonitor()
+	// use metric middleware without expose metric path
+	m.UseWithoutExposingEndpoint(appRouter)
+	// set metric path expose to metric router
+	m.Expose(metricRouter)
+
+	appRouter.GET("/product/:id", func(ctx *gin.Context) {
+		ctx.JSON(200, map[string]string{
+			"productId": ctx.Param("id"),
+		})
+	})
+	go func() {
+		_ = metricRouter.Run(":8081")
+	}()
+	_ = appRouter.Run(":8080")
+}
+```
 
 ## Contributing
 
