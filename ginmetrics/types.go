@@ -113,7 +113,7 @@ func (m *Monitor) AddMetric(metric *Metric) error {
 			m.metrics[metric.Name] = metric
 		}
 	}
-	return errors.Errorf("metric type '%s' not existed.", metric.Type)
+	return errors.Errorf("metric type '%d' not existed.", metric.Type)
 }
 
 func counterHandler(metric *Metric) error {
