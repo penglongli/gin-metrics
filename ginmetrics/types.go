@@ -111,6 +111,7 @@ func (m *Monitor) AddMetric(metric *Metric) error {
 		if err := f(metric); err == nil {
 			prometheus.MustRegister(metric.vec)
 			m.metrics[metric.Name] = metric
+			return nil
 		}
 	}
 	return errors.Errorf("metric type '%d' not existed.", metric.Type)
