@@ -1,3 +1,5 @@
+[![Tests](https://github.com/penglongli/gin-metrics/actions/workflows/go.yml/badge.svg?branch=master)](https://github.com/penglongli/gin-metrics/actions/workflows/run-tests.yml)
+
 # gin-metrics
 gin-gonic/gin metrics exporter for Prometheus.
 
