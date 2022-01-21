@@ -1,9 +1,20 @@
 package ginmetrics
 
-import "testing"
+import (
+	"sync"
+	"testing"
+)
 
 func TestSingletonRacing(t *testing.T) {
-	for i := 0; i < 10; i++ {
-		go GetMonitor()
+	var wg sync.WaitGroup
+	nLoops := 1000
+	wg.Add(nLoops)
+	for i := 0; i < nLoops; i++ {
+		go func() {
+			GetMonitor()
+			wg.Done()
+		}()
 	}
+
+	wg.Wait()
 }
