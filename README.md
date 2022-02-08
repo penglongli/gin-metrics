@@ -168,6 +168,6 @@ func main() {
 
 ## Contributing
 
-If someone has a problem or suggestions, you can [new issues](https://github.com/penglongli/gin-metrics/issues/new) 
-or [new pull requrests](https://github.com/penglongli/gin-metrics/pulls). 
+If someone has a problem or suggestions, you can submit [new issues](https://github.com/penglongli/gin-metrics/issues/new) 
+or [new pull requests](https://github.com/penglongli/gin-metrics/pulls). 
 
