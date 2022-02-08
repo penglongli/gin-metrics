@@ -3,6 +3,8 @@ package ginmetrics
 import (
 	"github.com/pkg/errors"
 	"github.com/prometheus/client_golang/prometheus"
+
+	"sync"
 )
 
 type MetricType int
@@ -19,8 +21,10 @@ const (
 )
 
 var (
+	once    sync.Once
+	monitor *Monitor
+
 	defaultDuration = []float64{0.1, 0.3, 1.2, 5, 10}
-	monitor         *Monitor
 
 	promTypeHandler = map[MetricType]func(metric *Metric) error{
 		Counter:   counterHandler,
@@ -41,14 +45,15 @@ type Monitor struct {
 // GetMonitor used to get global Monitor object,
 // this function returns a singleton object.
 func GetMonitor() *Monitor {
-	if monitor == nil {
+	once.Do(func() {
 		monitor = &Monitor{
 			metricPath:  defaultMetricPath,
 			slowTime:    defaultSlowTime,
 			reqDuration: defaultDuration,
 			metrics:     make(map[string]*Metric),
 		}
-	}
+	})
+
 	return monitor
 }
 
