@@ -33,7 +33,7 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	
+
 	"github.com/penglongli/gin-metrics/ginmetrics"
 )
 
@@ -55,12 +55,13 @@ func main() {
 	m.Use(r)
 
 	r.GET("/product/:id", func(ctx *gin.Context) {
+		ctx.JSON(200, map[string]string{
 			"productId": ctx.Param("id"),
 		})
 	})
+
 	_ = r.Run()
 }
-
 ```
 
 ## Custom Metric
