@@ -108,12 +108,15 @@ func (m *Monitor) AddMetric(metric *Metric) error {
 		return errors.Errorf("metric name cannot be empty.")
 	}
 	if f, ok := promTypeHandler[metric.Type]; ok {
-		if err := f(metric); err == nil {
-			prometheus.MustRegister(metric.vec)
-			m.metrics[metric.Name] = metric
-			return nil
+		err := f(metric)
+		if err != nil {
+			return err
 		}
+		prometheus.MustRegister(metric.vec)
+		m.metrics[metric.Name] = metric
+		return nil
 	}
+
 	return errors.Errorf("metric type '%d' not existed.", metric.Type)
 }
 
