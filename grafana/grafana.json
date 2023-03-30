@@ -501,7 +501,7 @@
       "timeFrom": null,
       "timeShift": null,
       "title": "Method",
-      "type": "grafana-piechart-panel",
+      "type": "piechart",
       "valueName": "current"
     },
     {
@@ -681,7 +681,7 @@
       "timeFrom": null,
       "timeShift": null,
       "title": "Code",
-      "type": "grafana-piechart-panel",
+      "type": "piechart",
       "valueName": "current"
     },
     {
