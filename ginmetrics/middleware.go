@@ -8,7 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 
-	"github.com/penglongli/gin-metrics/bloom"
+	"github.com/jiekun/gin-metrics/bloom"
 )
 
 var (
@@ -145,11 +145,11 @@ func (m *Monitor) ginMetricHandle(ctx *gin.Context, start time.Time) {
 	// set slow request
 	latency := time.Since(start)
 	if int32(latency.Seconds()) > m.slowTime {
-		_ = m.GetMetric(metricSlowRequest).Inc([]string{ctx.FullPath(), r.Method, strconv.Itoa(w.Status())})
+		_ = m.GetMetric(metricSlowRequest).Inc([]string{path, r.Method, strconv.Itoa(w.Status())})
 	}
 
 	// set request duration
-	_ = m.GetMetric(metricRequestDuration).Observe([]string{ctx.FullPath()}, latency.Seconds())
+	_ = m.GetMetric(metricRequestDuration).Observe([]string{path}, latency.Seconds())
 
 	// set response size
 	if w.Size() > 0 {
