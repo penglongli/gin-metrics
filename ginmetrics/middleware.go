@@ -127,8 +127,14 @@ func (m *Monitor) ginMetricHandle(ctx *gin.Context, start time.Time) {
 		_ = m.GetMetric(metricRequestUVTotal).Inc(nil)
 	}
 
+	// get the request path (the best effort)
+	path := ctx.FullPath()
+	if path == "" && ctx.Request != nil && ctx.Request.URL != nil {
+		path = ctx.Request.URL.Path
+	}
+
 	// set uri request total
-	_ = m.GetMetric(metricURIRequestTotal).Inc([]string{ctx.FullPath(), r.Method, strconv.Itoa(w.Status())})
+	_ = m.GetMetric(metricURIRequestTotal).Inc([]string{path, r.Method, strconv.Itoa(w.Status())})
 
 	// set request body size
 	// since r.ContentLength can be negative (in some occasions) guard the operation
