@@ -19,8 +19,9 @@ const (
 )
 
 var (
-	defaultDuration = []float64{0.1, 0.3, 1.2, 5, 10}
-	monitor         *Monitor
+	defaultExcludePaths = []string{}
+	defaultDuration     = []float64{0.1, 0.3, 1.2, 5, 10}
+	monitor             *Monitor
 
 	promTypeHandler = map[MetricType]func(metric *Metric) error{
 		Counter:   counterHandler,
@@ -32,10 +33,11 @@ var (
 
 // Monitor is an object that uses to set gin server monitor.
 type Monitor struct {
-	slowTime    int32
-	metricPath  string
-	reqDuration []float64
-	metrics     map[string]*Metric
+	slowTime     int32
+	metricPath   string
+	excludePaths []string
+	reqDuration  []float64
+	metrics      map[string]*Metric
 }
 
 // GetMonitor used to get global Monitor object,
@@ -43,10 +45,11 @@ type Monitor struct {
 func GetMonitor() *Monitor {
 	if monitor == nil {
 		monitor = &Monitor{
-			metricPath:  defaultMetricPath,
-			slowTime:    defaultSlowTime,
-			reqDuration: defaultDuration,
-			metrics:     make(map[string]*Metric),
+			metricPath:   defaultMetricPath,
+			slowTime:     defaultSlowTime,
+			excludePaths: defaultExcludePaths,
+			reqDuration:  defaultDuration,
+			metrics:      make(map[string]*Metric),
 		}
 	}
 	return monitor
@@ -64,6 +67,11 @@ func (m *Monitor) GetMetric(name string) *Metric {
 // to get gin server monitoring data.
 func (m *Monitor) SetMetricPath(path string) {
 	m.metricPath = path
+}
+
+// SetExcludePaths set exclude paths which should not be reported (e.g. /ping /healthz...)
+func (m *Monitor) SetExcludePaths(paths []string) {
+	m.excludePaths = paths
 }
 
 // SetSlowTime set slowTime property. slowTime is used to determine whether
