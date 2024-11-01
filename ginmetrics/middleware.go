@@ -2,6 +2,7 @@ package ginmetrics
 
 import (
 	"fmt"
+	"slices"
 	"strconv"
 	"time"
 
@@ -101,7 +102,9 @@ func (m *Monitor) initGinMetrics() {
 
 // monitorInterceptor as gin monitor middleware.
 func (m *Monitor) monitorInterceptor(ctx *gin.Context) {
-	if ctx.Request.URL.Path == m.metricPath {
+	// some paths should not be reported
+	if ctx.Request.URL.Path == m.metricPath ||
+		slices.Contains(m.excludePaths, ctx.Request.URL.Path) {
 		ctx.Next()
 		return
 	}
