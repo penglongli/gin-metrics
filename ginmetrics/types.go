@@ -156,7 +156,7 @@ func summaryHandler(metric *Metric) error {
 	if len(metric.Objectives) == 0 {
 		return errors.Errorf("metric '%s' is summary type, cannot lose objectives param.", metric.Name)
 	}
-	prometheus.NewSummaryVec(
+	metric.vec = prometheus.NewSummaryVec(
 		prometheus.SummaryOpts{Name: metric.Name, Help: metric.Description, Objectives: metric.Objectives},
 		metric.Labels,
 	)
