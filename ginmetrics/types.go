@@ -38,6 +38,7 @@ type Monitor struct {
 	excludePaths []string
 	reqDuration  []float64
 	metrics      map[string]*Metric
+	metadata     map[string]string
 }
 
 // GetMonitor used to get global Monitor object,
@@ -50,6 +51,7 @@ func GetMonitor() *Monitor {
 			excludePaths: defaultExcludePaths,
 			reqDuration:  defaultDuration,
 			metrics:      make(map[string]*Metric),
+			metadata:     make(map[string]string),
 		}
 	}
 	return monitor
